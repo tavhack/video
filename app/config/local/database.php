@@ -16,30 +16,30 @@ return array(
 	| so make sure you have the driver for your particular database of
 	| choice installed on your machine before you begin development.
 	|
-	*/
+	 */
 
 	'connections' => array(
 
 		'mysql' => array(
-			'driver'    => 'mysql',
-			'host'      => 'localhost',
-			'database'  => 'homestead',
-			'username'  => 'homestead',
-			'password'  => 'secret',
-			'charset'   => 'utf8',
+			'driver' => 'mysql',
+			'host' => 'localhost',
+			'database' => 'psnv',
+			'username' => 'root',
+			'password' => '',
+			'charset' => 'utf8',
 			'collation' => 'utf8_unicode_ci',
-			'prefix'    => '',
+			'prefix' => '',
 		),
 
 		'pgsql' => array(
-			'driver'   => 'pgsql',
-			'host'     => 'localhost',
+			'driver' => 'pgsql',
+			'host' => 'localhost',
 			'database' => 'homestead',
 			'username' => 'homestead',
 			'password' => 'secret',
-			'charset'  => 'utf8',
-			'prefix'   => '',
-			'schema'   => 'public',
+			'charset' => 'utf8',
+			'prefix' => '',
+			'schema' => 'public',
 		),
 
 	),
