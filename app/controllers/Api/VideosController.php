@@ -2,7 +2,7 @@
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class VideoController extends \BaseController {
+class VideosController extends \BaseController {
 
 	/**
 	 * Post Repository
