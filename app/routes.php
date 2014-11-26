@@ -15,3 +15,21 @@ Route::get('/', function()
 {
 	return View::make('hello');
 });
+
+Route::get('/flash', function () {
+	Session::flash('message', 'Its a flash');
+	return View::make('hello');
+});
+
+Route::group(array('before' => 'auth.basic'), function () {
+	Route::resource('posts', 'PostsController');
+
+});
+
+Route::group(['prefix' => 'api', 'before' => 'auth.basic'], function () {
+	Route::resource('posts', 'Api\PostsController');
+});
+
+Route::get('/back', function () {
+	return Redirect::back();
+});;
