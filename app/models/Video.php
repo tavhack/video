@@ -7,8 +7,22 @@
 class Video extends Eloquent {
 
 	protected $table = "videos";
-	protected $fillable = ['videoId', 'videoName', 'videoAuthor', 'videoAvatar', 'videoDescription', 'videoCategoryId', 'videoLink', 'videoViews', 'videoShares'];
+
+	protected $fillable = ['videoName', 'videoAuthor', 'videoAvatar', 'videoDescription', 'videoCategoryId', 'videoLink', 'videoViews', 'videoShares'];
+
 	protected $primaryKey = 'videoId';
+
+	public static $rules = array(
+
+		'videoName' => 'required',
+		'videoAuthor' => 'required',
+		'videoAvatar' => 'required',
+		'videoDescription' => 'required',
+		'videoCategoryId' => 'required|integer',
+		'videoLink' => 'required|active_url',
+		'videoViews' => 'required|integer',
+		'videoShares' => 'required|integer',
+	);
 
 	public function category() {
 		return $this->belongsTo('Category');
@@ -22,7 +36,7 @@ class Video extends Eloquent {
 	}
 
 	public function comments() {
-		return $this->hasMany('Comment');
+		return $this->hasMany('Comment', 'commentVideoId');
 	}
 
 	public function tags() {
@@ -47,6 +61,11 @@ class Video extends Eloquent {
 		// $last_query = end($queries);
 		// var_dump($last_query);die;
 		return $list;
+	}
+	public function getListCommentByVideoId($video) {
+
+		$comments = $video->comments()->where('approved', '=', 1)->get();
+		return $comments;
 	}
 
 }

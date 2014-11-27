@@ -19,7 +19,7 @@ class VideosController extends \BaseController {
 	}
 
 	/**
-	 * Display a listing of the resource.
+	 * Display a listing video by category of the resource.
 	 *
 	 * @return Response
 	 */
@@ -27,11 +27,24 @@ class VideosController extends \BaseController {
 
 		return \Response::json($this->video->getListVideoByCategoryId($category));
 	}
+	/**
+	 * Display a listing video by tag id of the resource.
+	 *
+	 * @return Response
+	 */
 	public function getListVideoByTag($tag) {
 		// var_dump($this->video->getListVideoByTagId($tag));die();
 		return \Response::json($this->video->getListVideoByTagId($tag));
 	}
+/**
+ * Display a listing commnent by video id of the resource.
+ *
+ * @return Response
+ */
 
+	public function getAllCommentVideo($video) {
+		return \Response::json($this->video->getListCommentByVideoId($video));
+	}
 	/**
 	 * Store a newly created resource in storage.
 	 *
