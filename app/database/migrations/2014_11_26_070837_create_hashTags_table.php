@@ -13,12 +13,12 @@ class CreateHashTagsTable extends Migration {
 	public function up() {
 		Schema::create('hashTags', function (Blueprint $table) {
 			$table->increments('hashTagId');
-			$table->integer('hashTagVideoId')->unsigned();
+			// $table->integer('hashTagVideoId')->unsigned();
 			$table->string('hashTagName');
 			$table->timestamps();
-			$table->foreign('hashTagVideoId')
-			->references('videoId')->on('videos')
-			->onDelete('cascade');
+			// $table->foreign('hashTagVideoId')
+			// ->references('videoId')->on('videos')
+			// ->onDelete('cascade');
 		});
 
 	}

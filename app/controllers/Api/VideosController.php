@@ -28,6 +28,7 @@ class VideosController extends \BaseController {
 		return \Response::json($this->video->getListVideoByCategoryId($category));
 	}
 	public function getListVideoByTag($tag) {
+		// var_dump($this->video->getListVideoByTagId($tag));die();
 		return \Response::json($this->video->getListVideoByTagId($tag));
 	}
 

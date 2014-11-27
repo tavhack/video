@@ -2,15 +2,15 @@
 
 class TagTableSeeder extends Seeder {
 
-    public function run() {
-        DB::table('hashTags')->delete();
-        HashTag::create(array('hashTagVideoId' => 1, 'hashTagName' => 'film'));
-        HashTag::create(array('hashTagVideoId' => 1, 'hashTagName' => 'action'));
-        HashTag::create(array('hashTagVideoId' => 2, 'hashTagName' => 'clip'));
-        HashTag::create(array('hashTagVideoId' => 2, 'hashTagName' => 'eclipse'));
-        HashTag::create(array('hashTagVideoId' => 3, 'hashTagName' => 'tag'));
-        HashTag::create(array('hashTagVideoId' => 3, 'hashTagName' => 'warm'));
-        HashTag::create(array('hashTagVideoId' => 1, 'hashTagName' => 'test taf'));
-    }
+	public function run() {
+		DB::table('hashTags')->delete();
+		HashTag::create(array('hashTagName' => 'film'));
+		HashTag::create(array('hashTagName' => 'action'));
+		HashTag::create(array('hashTagName' => 'clip'));
+		HashTag::create(array('hashTagName' => 'eclipse'));
+		HashTag::create(array('hashTagName' => 'tag'));
+		HashTag::create(array('hashTagName' => 'warm'));
+		HashTag::create(array('hashTagName' => 'test taf'));
+	}
 
 }

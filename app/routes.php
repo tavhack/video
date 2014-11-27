@@ -15,6 +15,7 @@ Route::model('category', 'Category');
 Route::model('video', 'Video');
 Route::model('comment', 'Comment');
 Route::model('hashtag', 'HashTag');
+// Route::model('videotag', 'Videotag');
 
 Route::get('/', function () {
 	return View::make('hello');
