@@ -6,66 +6,83 @@
  */
 class Video extends Eloquent {
 
-	protected $table = "videos";
+    protected $table = "videos";
+    protected $fillable = ['videoName', 'videoAuthor', 'videoAvatar', 'videoDescription', 'videoCategoryId', 'videoLink', 'videoViews', 'videoShares'];
+    protected $primaryKey = 'videoId';
+    protected $tagModels = array();
+    public static $rules = array(
+        'videoName' => 'required',
+        'videoAuthor' => 'required',
+        'videoAvatar' => 'required',
+        'videoDescription' => 'required',
+        'videoCategoryId' => 'required|integer',
+        'videoLink' => 'required|active_url',
+        'videoViews' => 'required|integer',
+        'videoShares' => 'required|integer',
+    );
 
-	protected $fillable = ['videoName', 'videoAuthor', 'videoAvatar', 'videoDescription', 'videoCategoryId', 'videoLink', 'videoViews', 'videoShares'];
+    //process save tag
 
-	protected $primaryKey = 'videoId';
+    public function saveVideo() {
 
-	public static $rules = array(
+        DB::transaction(function() {
 
-		'videoName' => 'required',
-		'videoAuthor' => 'required',
-		'videoAvatar' => 'required',
-		'videoDescription' => 'required',
-		'videoCategoryId' => 'required|integer',
-		'videoLink' => 'required|active_url',
-		'videoViews' => 'required|integer',
-		'videoShares' => 'required|integer',
-	);
+            parent::save();
 
-	public function category() {
-		return $this->belongsTo('Category');
-	}
+            foreach ($this->tagModels as $tagModel) {
+                $this->tags()->insert($tagModel);
+            }
+        });
+    }
 
-	public function delete() {
-		foreach ($this->video as $video) {
-			$video->delete();
-		}
-		return parent::delete();
-	}
+    public function addTagModel($tagModel) {
+        $this->tagModels[] = $tagModel;
+    }
 
-	public function comments() {
-		return $this->hasMany('Comment', 'commentVideoId');
-	}
+    public function category() {
+        return $this->belongsTo('Category');
+    }
 
-	public function tags() {
-		return $this->belongsToMany('HashTag', 'videos_tags', 'hashTagId', 'hashTagVideoId');
-	}
+    public function delete() {
+        foreach ($this->video as $video) {
+            $video->delete();
+        }
+        return parent::delete();
+    }
 
-	public function getListVideoByCategoryId($category = null) {
+    public function comments() {
+        return $this->hasMany('Comment', 'commentVideoId');
+    }
 
-		$this->video = new Video();
-		if (is_null($category)) {
-			$list = $this->video->all();
-		} else {
-			$list = $this->video->where('videoCategoryId', '=', $category->attributes['categoryId'])->get();
-		}
+    public function tags() {
+        return $this->belongsToMany('HashTag', 'videos_tags', 'hashTagId', 'hashTagVideoId');
+    }
 
-		return $list;
-	}
-	public function getListVideoByTagId($tag) {
-		$tagId = $tag['hashTagId'];
-		$list = $tag->video()->get();
-		// $queries = DB::getQueryLog();
-		// $last_query = end($queries);
-		// var_dump($last_query);die;
-		return $list;
-	}
-	public function getListCommentByVideoId($video) {
+    public function getListVideoByCategoryId($category = null) {
 
-		$comments = $video->comments()->where('approved', '=', 1)->get();
-		return $comments;
-	}
+        $this->video = new Video();
+        if (is_null($category)) {
+            $list = $this->video->all();
+        } else {
+            $list = $this->video->where('videoCategoryId', '=', $category->attributes['categoryId'])->get();
+        }
+
+        return $list;
+    }
+
+    public function getListVideoByTagId($tag) {
+        $tagId = $tag['hashTagId'];
+        $list = $tag->video()->get();
+        // $queries = DB::getQueryLog();
+        // $last_query = end($queries);
+        // var_dump($last_query);die;
+        return $list;
+    }
+
+    public function getListCommentByVideoId($video) {
+
+        $comments = $video->comments()->where('approved', '=', 1)->get();
+        return $comments;
+    }
 
 }

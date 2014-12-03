@@ -53,9 +53,12 @@ class VideosController extends \BaseController {
 	public function store() {
 		$input = \Request::only('videoName', 'videoAuthor', 'videoAvatar', 'videoDescription', 'videoCategoryId', 'videoLink', 'videoViews', 'videoShares');
 		$validation = \Validator::make($input, \Video::$rules);
-
+                $tag = new \HashTag();
+                $tag->hashTagName = 'test';
+                
 		if ($validation->passes()) {
-			$video = $this->video->create($input);
+                        $this->video->addTagModel($tag);
+			$video = $this->video->saveVideo();//$this->video->create($input);
 			return $video;
 		}
 		return \Response::json(['errors' => $validation->errors()->toArray()], 412);
