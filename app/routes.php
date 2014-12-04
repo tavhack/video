@@ -49,18 +49,26 @@ Route::group(['prefix' => 'admin', 'before' => 'auth'], function () {
         $layout->main = View::make('dash')->with('content', "Hi $username, Welcome to Dashboard!");
         return $layout;
     });
+    //category
     Route::get('/category/list', ['as' => 'category.list', 'uses' => 'AdminCategoriesController@getListCategories']);
+    Route::get('/category/{category}/show', ['as' => 'category.show', 'uses' => 'AdminCategoriesController@showCategory']);
+    Route::post('/category/{category}/save', ['as' => 'category.save', 'uses' => 'AdminCategoriesController@saveCategory']);
+    Route::post('/category/{category}/update', ['as' => 'category.update', 'uses' => 'AdminCategoriesController@updateCategory']);
+    Route::post('/category/{category}/delete', ['as' => 'category.delete', 'uses' => 'AdminCategoriesController@deleteCategory']);
+    
+    
+    Route::get('/hashtag/list', ['as' => 'hashtag.list', 'uses' => 'AdminHashtagsController@getListHashtags']);
     Route::get('/video/list', ['as' => 'video.list', 'uses' => 'AdminVideosController@listVideo']);
     Route::get('/video/new', ['as' => 'video.new', 'uses' => 'AdminVideosController@newVideo']);
     Route::get('/video/{video}/edit', ['as' => 'video.edit', 'uses' => 'AdminVideosController@editVideo']);
     Route::get('/video/{video}/delete', ['as' => 'video.delete', 'uses' => 'AdminVideosController@deleteVideo']);
-    Route::get('/comment/list', ['as' => 'comment.list', 'uses' => 'CommentController@listComment']);
-    Route::get('/comment/{comment}/show', ['as' => 'comment.show', 'uses' => 'CommentController@showComment']);
-    Route::get('/comment/{comment}/delete', ['as' => 'comment.delete', 'uses' => 'CommentController@deleteComment']);
+    Route::get('/comment/list', ['as' => 'comment.list', 'uses' => 'AdminCommentsController@getListComments']);
+    Route::get('/comment/{comment}/show', ['as' => 'comment.show', 'uses' => 'AdminCommentsController@showComment']);
+    Route::get('/comment/{comment}/delete', ['as' => 'comment.delete', 'uses' => 'AdminCommentsController@deleteComment']);
 
     /* post routes */
-    Route::post('/video/save', ['as' => 'post.save', 'uses' => 'AdminVideosController@saveVideo']);
-    Route::post('/video/{video}/update', ['as' => 'post.update', 'uses' => 'PostController@updateVideo']);
+    Route::post('/video/save', ['as' => 'video.save', 'uses' => 'AdminVideosController@saveVideo']);
+    Route::post('/video/{video}/update', ['as' => 'video.update', 'uses' => 'PostController@updateVideo']);
     Route::post('/comment/{comment}/update', ['as' => 'comment.update', 'uses' => 'CommentController@updateComment']);
 });
 

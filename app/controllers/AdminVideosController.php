@@ -4,7 +4,7 @@ class AdminVideosController extends \BaseController {
     /* get functions */
 
     public function listVideo() {
-        $videos = Video::orderBy('id', 'desc')->paginate(10);
+        $videos = Video::orderBy('videoId', 'desc')->paginate(10);
         $this->layout->title = 'Video listings';
         $this->layout->main = View::make('dash')->nest('content', 'videos.list', compact('videos'));
     }
