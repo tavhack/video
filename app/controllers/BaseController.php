@@ -2,6 +2,11 @@
 
 class BaseController extends Controller {
 
+        /**
+	 * layout to use
+	 * @var View
+	 */
+	protected $layout = 'master';
 	/**
 	 * Setup the layout used by the controller.
 	 *

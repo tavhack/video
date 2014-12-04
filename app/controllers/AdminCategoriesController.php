@@ -13,7 +13,7 @@ class AdminCategoriesController extends \BaseController {
         $this->categories = $categories;
     }
 
-    public function index() {
+    public function getListCategories() {
         $listCategories = $this->categories->orderBy('categoryId', 'desc')->paginate(10);
          $listCategories->getFactory()->setViewName('pagination::simple');
         $this->layout->title = 'Category';
