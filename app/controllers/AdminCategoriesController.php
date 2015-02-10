@@ -15,12 +15,25 @@ class AdminCategoriesController extends \BaseController {
 
     public function getListCategories() {
         $listCategories = $this->categories->orderBy('categoryId', 'desc')->paginate(10);
-         $listCategories->getFactory()->setViewName('pagination::simple');
-        $this->layout->title = 'Category';
-        $this->layout->main = View::make('dash')->nest('content', 'category.list', compact('listCategories'));
+        $listCategories->getFactory()->setViewName('pagination::simple');
+//        $catetegoies = $listCategories->toArray();
+        return View::make('category.list')->with('catetegoies',$listCategories);
     }
-    public function saveCategory(){}
-    public function showCategory(){}
-    public function updateCategory(){}
-    public function deleteCategory(){}
+
+    public function saveCategory() {
+        
+    }
+
+    public function showCategory() {
+        
+    }
+
+    public function updateCategory() {
+        
+    }
+
+    public function deleteCategory() {
+        
+    }
+
 }

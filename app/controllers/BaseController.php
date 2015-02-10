@@ -2,7 +2,7 @@
 
 class BaseController extends Controller {
 
-        /**
+         /**
 	 * layout to use
 	 * @var View
 	 */

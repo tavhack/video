@@ -16,7 +16,6 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
      * @var string
      */
     protected $table = 'users';
-    protected $primaryKey = 'userId';
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -24,7 +23,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
      * @var array
      */
     protected $hidden = array('password');
-
+    protected $primaryKey = 'userId';
     /**
      * Get the unique identifier for the user.
      *
@@ -80,8 +79,23 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         return $this->email;
     }
 
-    public function setPasswordAttribute() {
-        $this->password = Hash::make($this->password);
+    public function getListUsersModel($name) {
+        $arrUser = array();
+        $list =  array();
+        $users = User::join('videos', 'users.userId', '=', 'videos.videoUserId')->select('videos.approved','users.userId','users.fullname','users.avatar','users.deviceId')->where('fullname', 'LIKE', '%' . $name . '%')->distinct()->get();
+        foreach ($users as $user) {
+           if($user['approved'] == 1){
+            $arrUser ['userId'] = $user['userId'];
+            $arrUser ['fullname'] = $user['fullname'];
+            $arrUser ['avatar'] = $user['avatar'];
+            $arrUser ['deviceId'] = $user['deviceId'];
+            $list [] = $arrUser;
+           }
+        }
+        if(!empty($list))
+        return $list;
+        else
+            return array();
     }
 
 }

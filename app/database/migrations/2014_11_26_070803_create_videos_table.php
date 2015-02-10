@@ -16,14 +16,20 @@ class CreateVideosTable extends Migration {
 			$table->string('videoName');
 			$table->string('videoAuthor');
 			$table->string('videoAvatar');
+                        $table->string('videoThumbnail');
 			$table->text('videoDescription');
 			$table->integer('videoCategoryId')->unsigned();
-			$table->string('videoLink');
+			$table->integer('videoType');
+                        $table->string('videoLink');
 			$table->integer('videoViews');
 			$table->integer('videoShares');
+                        $table->boolean('approved');
+                        $table->integer('videoUserId')->unsigned();
 			$table->timestamps();
 			$table->foreign('videoCategoryId')->references('categoryId')->on('categories')
 			->onDelete('cascade');
+//                        $table->foreign('videoUserId')->references('userId')->on('users')
+//			->onDelete('cascade');
 		});
 
 	}

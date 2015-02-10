@@ -1,7 +1,4 @@
 {{-- home page --}}
-<div class="small-8 large-8 column">
-  <div class="content">
+<div class="container" id="main-content">
     {{$content}}
-  </div>
-</div>
-    
+</div> <!-- end Main content --> 

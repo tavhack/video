@@ -20,7 +20,7 @@ class VideoTableSeeder extends Seeder {
         Video::create(array
             ('videoName' => 'video clip',
             'videoAuthor' => 'hop vu',
-            'videoAvatar' => 'https://intranet.synova-solutions.com/redmine/vietnam/attachments/3438',
+            'videoAvatar' => 'http://i.vimeocdn.com/portrait/6822355_75x75.jpg',
             'videoDescription' => 'test test',
             'videoCategoryId' => 2,
             'videoLink' => 'http://vimeo.com/26120369',

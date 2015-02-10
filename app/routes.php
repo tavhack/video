@@ -1,14 +1,14 @@
 <?php
 
 /*
-  |--------------------------------------------------------------------------
-  | Application Routes
-  |--------------------------------------------------------------------------
-  |
-  | Here is where you can register all of the routes for an application.
-  | It's a breeze. Simply tell Laravel the URIs it should respond to
-  | and give it the Closure to execute when that URI is requested.
-  |
+|--------------------------------------------------------------------------
+| Application Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register all of the routes for an application.
+| It's a breeze. Simply tell Laravel the URIs it should respond to
+| and give it the Closure to execute when that URI is requested.
+|
  */
 /* Model Bindings */
 Route::model('category', 'Category');
@@ -20,34 +20,44 @@ Route::model('hashtag', 'HashTag');
 // process for api resource
 Route::group(['prefix' => 'api'], function () {
 
-    Route::resource('category/list', 'Api\CategoriesController');
+	Route::resource('category/list', 'Api\CategoriesController');
+        //get detail video by videoId
+        Route::get('video/{video}',['as'=>'detail.video','uses'=>'Api\VideosController@showDetailVideo']);
+        
+	Route::get('/feed/{category}/list', ['as' => 'video.category.list', 'uses' => 'Api\VideosController@getListVideoByCategory']);
+	Route::get('/feed/list', ['as' => 'video.noncategory.list', 'uses' => 'Api\VideosController@getListVideoByCategory']);
+	//Search list hashtag
+        
+        Route::post('/feed/search/hashtag', ['as' => 'hashtag.search.list', 'uses' => 'Api\HashtagsController@getListHashTags']);
+	Route::post('/feed/search/user', ['as' => 'user.search.list', 'uses' => 'Api\UsersController@getListUsers']);
+        Route::post('/video/getlist', ['as' => 'video.search.list', 'uses' => 'Api\VideosController@getListVideoBySearch']);
+        //list commnet by video
+	Route::get('/video/{video}/allcomments', ['as' => 'video.comment.show', 'uses' => 'Api\VideosController@getAllCommentVideo']);
+	// add comment
+	Route::post('/video/{video}/addcomment', ['as' => 'comment.new', 'uses' => 'Api\CommentsController@newComment']);
+	//update
+	Route::post('/video/update', ['as' => 'video.update', 'uses' => 'Api\VideosController@updateVideoCounterViewShare']);
+//	Route::post('/video/share', ['as' => 'video.update.share', 'uses' => 'Api\VideosController@updateVideoShare']);
+	Route::post('/video/upload', ['as' => 'video.upload', 'uses' => 'Api\VideosController@store']);
 
-    Route::get('/feed/{category}/list', ['as' => 'video.category.list', 'uses' => 'Api\VideosController@getListVideoByCategory']);
-    Route::get('/feed/list', ['as' => 'video.noncategory.list', 'uses' => 'Api\VideosController@getListVideoByCategory']);
-    Route::get('/feed/{hashtag}/tags', ['as' => 'video.tag.list', 'uses' => 'Api\VideosController@getListVideoByTag']);
-    //list commnet by video
-    Route::get('/video/{video}/allcomments', ['as' => 'video.comment.show', 'uses' => 'Api\VideosController@getAllCommentVideo']);
-    // add comment
-    Route::post('/video/{video}/addcomment', ['as' => 'comment.new', 'uses' => 'Api\CommentsController@newComment']);
-    //update
-    Route::post('/video/{video}/view', ['as' => 'video.update.counter', 'uses' => 'Api\VideosController@updateVideoCounter']);
-    Route::post('/video/{video}/share', ['as' => 'video.update.share', 'uses' => 'Api\VideosController@updateVideoShare']);
-    Route::post('/video/upload', ['as' => 'video.upload.', 'uses' => 'Api\VideosController@store']);
 });
 
 /* User routes */
-Route::get('/video/{video}/show', ['as' => 'video.show', 'uses' => 'AdminVideosController@showVideo']);
-Route::post('/video/{video}/comment', ['as' => 'comment.new', 'uses' => 'CommentController@newComment']);
+Route::get('/video/{video}/show', ['as' => 'video.show', 'uses' => 'VideosController@showVideo']);
+Route::get('/video/ajaxupdate/{id}','VideosController@ajaxUpdateView');
+Route::get('/video/ajaxUpdateShare/{id}','VideosController@ajaxUpdateShare');
 
+//Route::post('/video/{video}/comment', ['as' => 'comment.new', 'uses' => 'CommentController@newComment']);
+//getlist video by categoryId
+Route::get('/video/{category}/list', ['as' => 'video.category.list', 'uses' => 'VideosController@getListVideoByCategoryFrontend']);
 /* Admin routes */
 Route::group(['prefix' => 'admin', 'before' => 'auth'], function () {
     /* get routes */
     Route::get('dash-board', function () {
-        $layout = View::make('master');
-        $layout->title = 'DashBoard';
+      
         $username = Auth::user()->username;
-        $layout->main = View::make('dash')->with('content', "Hi $username, Welcome to Dashboard!");
-        return $layout;
+        return View::make('dash')->with('content', "Hi $username, Welcome to Dashboard!");
+        
     });
     //category
     Route::get('/category/list', ['as' => 'category.list', 'uses' => 'AdminCategoriesController@getListCategories']);
@@ -68,9 +78,16 @@ Route::group(['prefix' => 'admin', 'before' => 'auth'], function () {
 
     /* post routes */
     Route::post('/video/save', ['as' => 'video.save', 'uses' => 'AdminVideosController@saveVideo']);
-    Route::post('/video/{video}/update', ['as' => 'video.update', 'uses' => 'PostController@updateVideo']);
+    Route::post('/video/{video}/update', ['as' => 'video.update', 'uses' => 'AdminVideosController@updateVideo']);
     Route::post('/comment/{comment}/update', ['as' => 'comment.update', 'uses' => 'CommentController@updateComment']);
 });
 
 /* Home routes */
 Route::controller('/', 'VideosController');
+
+/* View Composer */
+//View::composer('vimeo', function ($view) {
+//    $video = new Video();
+//    $view->video = $video->getListVideoByVidmeoId($video->videoId);
+//});
+

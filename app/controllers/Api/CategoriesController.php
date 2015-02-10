@@ -23,8 +23,7 @@ class CategoriesController extends \BaseController {
      * @return Response
      */
     public function index() {
-        return \Response::json($this->category->all());
-//                return \Response::json(['response' => 'success deleted'], 412);
+        return \Response::json($this->category->orderBy('categoryId', 'ASC')->get());
     }
 
     /**

@@ -87,7 +87,9 @@ img {
   text-align: right !important; }
 
 .text-center {
-  text-align: center !important; }
+  text-align: center !important; 
+  padding-bottom: 20px;
+}
 
 .text-justify {
   text-align: justify !important; }

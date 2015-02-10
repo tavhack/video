@@ -6,7 +6,7 @@ body {
 
 .main {
     background-color: #fff;
-    border: 1px solid #eee;
+    border: 1px solid #303030;
     border-radius: 3px;
 }
 
@@ -17,16 +17,16 @@ body {
 
 .sub-header {
     height: 120px;
-    background: #F47063;
+    background: #3e3e3e;
     padding: 15px;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #303030;
 }
 
 .site-footer {
     height: 50px;
     background: #F47063;
     padding: 15px;
-    border-top: 1px solid #ddd;
+    border-top: 1px solid #303030;
 }
 
 .sub-header a {
@@ -172,3 +172,4 @@ textarea {
         border: 1px solid #ccc;
     }
 }
+#video td { vertical-align: top}

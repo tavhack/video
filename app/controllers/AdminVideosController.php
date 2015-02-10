@@ -5,8 +5,8 @@ class AdminVideosController extends \BaseController {
 
     public function listVideo() {
         $videos = Video::orderBy('videoId', 'desc')->paginate(10);
-        $this->layout->title = 'Video listings';
-        $this->layout->main = View::make('dash')->nest('content', 'videos.list', compact('videos'));
+        $title = 'Video listings';
+        return View::make('videos.list')->with('videos',$videos);
     }
 
     public function showVideo(Video $video) {
@@ -53,7 +53,7 @@ class AdminVideosController extends \BaseController {
             return Redirect::back()->withErrors($valid)->withInput();
     }
 
-    public function updateVideo(Video $video) {
+   /* public function updateVideo(Video $video) {
         $data = [
             'videoName' => Input::get('videoName'),
             'videoAvatar' => Input::get('videoAvatar'),
@@ -76,13 +76,19 @@ class AdminVideosController extends \BaseController {
             $video->videoShare = $data['videoShare'];
             $video->videoLink = $data['videoLink'];
 
-            if (count($video->getDirty()) > 0) /* avoiding resubmission of same content */ {
+            if (count($video->getDirty()) > 0)  {
                 $video->save();
                 return Redirect::back()->with('success', 'Video is updated!');
             } else
                 return Redirect::back()->with('success', 'Nothing to update!');
         } else
             return Redirect::back()->withErrors($valid)->withInput();
+    }*/
+     public function updateVideo(Video $video)
+    {
+        $video->approved = Input::get('status');
+        $video->save();
+        return Redirect::back()->with('success', 'La video a été ' . (($video->approved === 'yes') ? 'approuvée' : 'désapprouvée'));
     }
 
 }
